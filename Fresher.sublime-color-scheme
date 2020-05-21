@@ -1,0 +1,339 @@
+/*
+ * This theme was auto generated!
+ *
+ * Parts of this theme may differ
+ * from the original, and color
+ * definitions using 'alpha'
+ * might not convert properly.
+ *
+ * Tool created by Judah Caruso
+ * https://github.com/kyoto-shift
+ *
+ * License: MIT
+*/
+{
+    "name": "Fresh",
+    "author": "Judah Caruso",
+    "color_space_name": "sRGB",
+    "semantic_class": "theme.dark.fresh",
+    "variables": {
+        "color00": "#121212",
+        "color01": "color(var(color12) alpha(0.45))",
+        "color02": "#D6DCE5",
+        "color03": "#3b3a32",
+        "color04": "#383939",
+        "color05": "#3A4547",
+        "color06": "#ffffff",
+        "color07": "#ffe792",
+        "color08": "#000000",
+        "color09": "#222218",
+        "color10": "color(#9d550f alpha(0.69))",
+        "color11": "#4ECDC4",
+        "color12": "#00A8C6",
+        "color13": "color(#BDBDBD alpha(0.37))",
+        "color14": "color(var(color08) alpha(0.25))",
+        "color15": "color(#14a0bc alpha(1.00))",
+        "color16": "#14A0BC",
+        "color17": "color(#d6dce5 alpha(1.00))",
+        "color18": "color(#fafaf8 alpha(1.00))",
+        "color19": "color(#6f6f6f alpha(1.00))",
+        "color20": "#A0CE4D",
+        "color21": "color(#d9d38b alpha(1.00))",
+        "color22": "color(#8ab513 alpha(0.63))",
+        "color23": "color(#a3a3a3 alpha(1.00))",
+        "color24": "color(#d9e118 alpha(1.00))",
+        "color25": "color(#6bbbb6 alpha(1.00))",
+        "color26": "color(#d03f57 alpha(1.00))",
+        "color27": "color(#9fc93a alpha(1.00))",
+        "color28": "color(#e5b859 alpha(1.00))",
+        "color29": "color(#a8cf57 alpha(1.00))"
+    },
+    "globals": {
+        "background": "var(color00)",
+        "caret": "var(color01)",
+        "foreground": "var(color02)",
+        "invisibles": "var(color03)",
+        "line_highlight": "var(color04)",
+        "selection": "var(color05)",
+        "selection_foreground": "var(color06)",
+        "find_highlight": "var(color07)",
+        "find_highlight_foreground": "var(color08)",
+        "selection_border": "var(color09)",
+        "active_guide": "var(color10)",
+        "brackets_foreground": "var(color11)",
+        "brackets_options": "underline",
+        "bracket_contents_foreground": "var(color12)",
+        "bracket_contents_options": "underline",
+        "tags_options": "stippled_underline"
+    },
+    "rules": [
+        {
+            "name": "Comment",
+            "scope": "comment",
+            "foreground": "var(color13)",
+            "background": "var(color14)"
+        },
+        {
+            "name": "String",
+            "scope": "string",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Keyword Tag",
+            "scope": "keyword.tag",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Number",
+            "scope": "constant.numeric",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Built-in constant",
+            "scope": "constant.language",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "User-defined constant",
+            "scope": "constant.character, constant.other",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Variable",
+            "scope": "variable",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Keyword",
+            "scope": "keyword",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Storage",
+            "scope": "storage",
+            "foreground": "var(color16)"
+        },
+        {
+            "name": "Storage type",
+            "scope": "storage.type",
+            "foreground": "var(color16)"
+        },
+        {
+            "name": "Class name",
+            "scope": "entity.name.class",
+            "font_style": "underline",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Inherited class",
+            "scope": "entity.other.inherited-class",
+            "font_style": "italic underline",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Function name",
+            "scope": "entity.name.function",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "variable.parameter",
+            "font_style": "italic",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Tag name",
+            "scope": "entity.name.tag",
+            "foreground": "var(color16)"
+        },
+        {
+            "name": "Tag attribute",
+            "scope": "entity.other.attribute-name",
+            "foreground": "var(color16)"
+        },
+        {
+            "name": "Library function",
+            "scope": "support.function",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Library constant",
+            "scope": "support.constant",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Library class/type",
+            "scope": "support.type, support.class",
+            "font_style": "italic",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Library variable",
+            "scope": "support.other.variable",
+            "foreground": "var(color17)"
+        },
+        {
+            "name": "Invalid",
+            "scope": "invalid",
+            "background": "var(color15)",
+            "foreground": "var(color18)"
+        },
+        {
+            "name": "Invalid deprecated",
+            "scope": "invalid.deprecated",
+            "background": "var(color15)",
+            "foreground": "var(color18)"
+        },
+        {
+            "name": "JSON String",
+            "scope": "meta.structure.dictionary.json string.quoted.double.json",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "diff.header",
+            "scope": "meta.diff, meta.diff.header",
+            "foreground": "var(color19)"
+        },
+        {
+            "name": "diff.deleted",
+            "scope": "markup.deleted",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "diff.inserted",
+            "scope": "markup.inserted",
+            "foreground": "var(color20)"
+        },
+        {
+            "name": "diff.changed",
+            "scope": "markup.changed",
+            "foreground": "var(color21)"
+        },
+        {
+            "scope": "constant.numeric.line-number.find-in-files - match",
+            "foreground": "var(color22)"
+        },
+        {
+            "scope": "entity.name.filename.find-in-files",
+            "foreground": "var(color21)"
+        },
+        {
+            "scope": "keyword.other",
+            "foreground": "var(color23)"
+        },
+        {
+            "scope": "meta.property-value, support.constant.property-value, constant.other.color",
+            "foreground": "var(color24)"
+        },
+        {
+            "scope": "meta.structure.dictionary.json string.quoted.double.json",
+            "foreground": "var(color15)"
+        },
+        {
+            "scope": "meta.structure.dictionary.value.json string.quoted.double.json",
+            "foreground": "var(color24)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "meta.property-name support.type.property-name",
+            "font_style": "normal"
+        },
+        {
+            "name": "Function argument",
+            "scope": "meta.property-value punctuation.separator.key-value",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "keyword.other.use, keyword.other.function.use, keyword.other.namespace, keyword.other.new, keyword.other.special-method, keyword.other.unit, keyword.other.use-as",
+            "foreground": "var(color25)"
+        },
+        {
+            "name": "Function argument",
+            "scope": "meta.use support.class.builtin, meta.other.inherited-class support.class.builtin",
+            "foreground": "var(color02)",
+            "font_style": "normal"
+        },
+        {
+            "name": "Function argument",
+            "scope": "variable.other",
+            "font_style": "normal"
+        },
+        {
+            "name": "Markdown Titles",
+            "scope": "entity.name.section.markdown",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "Markdown Title Hash",
+            "scope": "punctuation.definition.heading.markdown",
+            "foreground": "var(color02)"
+        },
+        {
+            "name": "Markdown Raw",
+            "scope": "markup.raw.inline.markdown",
+            "foreground": "var(color24)"
+        },
+        {
+            "name": "Markdown bold stars",
+            "scope": "punctuation.definition.bold.markdown, punctuation.definition.italic.markdown",
+            "foreground": "var(color17)"
+        },
+        {
+            "name": "Markdown link title braces",
+            "scope": "punctuation.definition.string.begin.markdown, punctuation.definition.string.end.markdown",
+            "foreground": "var(color17)"
+        },
+        {
+            "name": "Markdown link braces",
+            "scope": "punctuation.definition.metadata.markdown",
+            "foreground": "var(color17)"
+        },
+        {
+            "name": "Markdown link",
+            "scope": "markup.underline.link.markdown, markup.underline.link.image.markdown, meta.image.inline.markdown",
+            "foreground": "var(color25)",
+            "font_style": "italic"
+        },
+        {
+            "name": "Markdown bold/italic",
+            "scope": "markup.bold.markdown, markup.italic.markdown",
+            "foreground": "var(color25)"
+        },
+        {
+            "name": "Markdown bold/italic",
+            "scope": "markup.italic.markdown",
+            "font_style": "italic"
+        },
+        {
+            "name": "Markdown bold/italic",
+            "scope": "markup.bold.markdown",
+            "font_style": "bold"
+        },
+        {
+            "name": "Markdown pre",
+            "scope": "markup.raw.block.markdown",
+            "foreground": "var(color15)"
+        },
+        {
+            "name": "GitGutter deleted",
+            "scope": "markup.deleted.git_gutter",
+            "foreground": "var(color26)"
+        },
+        {
+            "name": "GitGutter inserted",
+            "scope": "markup.inserted.git_gutter",
+            "foreground": "var(color27)"
+        },
+        {
+            "name": "GitGutter changed",
+            "scope": "markup.changed.git_gutter",
+            "foreground": "var(color28)"
+        },
+        {
+            "name": "CSS Class",
+            "scope": "entity.other.attribute-name.class.css",
+            "foreground": "var(color29)"
+        }
+    ]
+}

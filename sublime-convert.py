@@ -46,12 +46,12 @@ from sys  import argv, stderr
 from xml.etree.ElementTree import fromstring
 
 
-def error(str):
-    print(f"Error: {str}", file=stderr) # sys.stderr
-    exit(1)
-
-
 def parse_theme_info(theme):
+    """
+        Finds any top-level metadata about the theme and properly formats it.
+        Also removes the UUID and its value from the final theme, as (AFIAK)
+        Sublime Text no longer requires that to be within themes.
+    """
     theme_info = {}
 
     for dct in theme:
@@ -74,16 +74,28 @@ def parse_theme_info(theme):
 
 
 def parse_dict(map, keys, values, is_color=False, color_palette=None):
-    color = None
+    """
+        Parses sublime-color-scheme dictionaries. Should only be used
+        when something like:
+            <key>settings</key>
+            <dict>...</dict>
+        is found.
+    """
+    color_id  = None
+    reference = None
 
     for key in keys:
         for value in values:
             if value.text != None:
                 if is_color and color_palette != None:
-                    color = get_color_id(value.text, color_palette)
+                    color_id  = get_color_id(value.text, color_palette)
+                    color     = value.text
+                    reference = color_palette["references"].get(color)
 
-                if color != None:
-                    map[key.text] = f"var({color})"
+                if reference  != None:
+                    map[key.text] = f"var({reference})"
+                elif color_id != None:
+                    map[key.text] = f"var({color_id})"
                 else:
                     map[key.text] = value.text.strip()
 
@@ -95,6 +107,9 @@ def parse_dict(map, keys, values, is_color=False, color_palette=None):
 
 
 def format_keys(keys):
+    """
+        Converts keys like findHighlightForeground to find_highlight_foreground.
+    """
     for key in keys:
         formatted_key = ''.join([f"_{c.lower()}" if c.isupper() else c for c in key.text])
         key.text      = formatted_key
@@ -103,6 +118,10 @@ def format_keys(keys):
 
 
 def parse_global_values(theme, color_palette):
+    """
+        Parses the "globals" table, converts tmTheme keys to the proper format,
+        and resolves any color references.
+    """
     global_values = {}
 
     for root in theme:
@@ -123,13 +142,37 @@ def parse_global_values(theme, color_palette):
 
     for key, value in global_values.items():
         for id, color in color_palette.items():
-            if value == color:
+            if id == "references": continue
+
+            if value[-1] == "^":
+                reference = color_palette["references"].get(value)
+                if reference != None:
+                    global_values[key] = f"var({reference})"
+            elif value == color:
                 global_values[key] = f"var({id})"
 
     return global_values
 
 
 def parse_colors(theme):
+    """
+        Finds each unique color within a theme, parses it, and resolves any
+        references. Used as the "variables" table in the final theme.
+
+        If a color explicitly contains an alpha value (rgb(a)), the hexadecimal
+        alpha is converted into a float between 0.0 and 1.0, and the definition
+        becomes "color(...)" instead of "#...". If the rgb values of two colors
+        are the same but their alpha values are different,  the non-alpha color
+        is used as a "root," and the alpha value is included separately. The
+        definition then becomes:
+
+            #00ff00   => var(color00)
+            #00ff00ff => color(var(color00) alpha(1.0))
+
+        Colors that contain alpha values but have no references become:
+
+            #ff00ff00 => color(#ff00ff alpha(0.0))
+    """
     if len(theme) <= 0: return
 
     colors    = []
@@ -138,17 +181,36 @@ def parse_colors(theme):
     # Yikes...
     for array in theme[0].findall("array"):
         for dct in array:
-            for value in dct:
-                if value.tag == "dict":
-                    for color in value:
-                        if color.text != None and color.text.startswith("#"):
-                            if not color.text in colors:
-                                colors.append(color.text)
+            for entry in dct.findall("dict"):
+                for color in entry:
+                    if color.text != None and color.text.startswith("#"):
+                        if len(color.text) > 7:
+                            color.text += "^"
 
+                        if not color.text in colors:
+                            colors.append(color.text)
+
+    # Create initial color map: ["colorXX"] = "#001122", ["colorXY"] = "#00112233^" (has alpha)
     for i in range(len(colors)):
         color = colors[i]
         color_map[f"color{i:02d}"] = color
 
+    # Create reference lookup table: ["#00112233^"] = "colorXY"
+    references = {}
+    for id, color in color_map.items():
+        if color[-1] == "^":
+            color_hex = color[:-3]
+            alpha     = int(color[-3:-1], 16) / 255
+            reference = get_color_id(color_hex, color_map)
+
+            if reference != None:
+                color_map[id] = f"color(var({reference}) alpha({alpha:.2f}))"
+            else:
+                color_map[id] = f"color({color_hex} alpha({alpha:.2f}))"
+
+            references[color] = id
+
+    color_map.update({"references": references})
     return color_map
 
 
@@ -168,7 +230,7 @@ def parse_rules(theme, color_palette):
                 values   = dct.findall("string")
                 rule_map = {}
 
-                if keys[len(keys) - 1].text == "settings":
+                if keys[-1].text == "settings":
                     keys.pop()
 
                 parse_dict(rule_map, keys, values)
@@ -188,11 +250,12 @@ def parse_rules(theme, color_palette):
 
 
 def make_theme(info, global_values, color_palette, rules):
-    formatted_map = {}
-    formatted_map.update(info)
-    formatted_map.update({"variables": color_palette})
-    formatted_map.update({"globals": global_values})
-    formatted_map.update({"rules": rules})
+    formatted_map = info
+    formatted_map.update({
+        "variables" : color_palette,
+        "globals"   : global_values,
+        "rules"     : rules
+    })
 
     json_string = dumps(formatted_map, indent=4) # json.dumps
 
@@ -213,6 +276,11 @@ def generate_header():
  *
  * License: MIT
 */\n"""
+
+
+def error(str):
+    print(f"Error: {str}", file=stderr) # sys.stderr
+    exit(1)
 
 
 def main(args):
@@ -242,6 +310,9 @@ def main(args):
     color_palette   = parse_colors(parsed)
     global_values   = parse_global_values(parsed, color_palette)
     rules           = parse_rules(parsed, color_palette)
+
+    color_palette.pop("references")
+
     converted_theme = make_theme(theme_info, global_values, color_palette, rules)
 
     try:
