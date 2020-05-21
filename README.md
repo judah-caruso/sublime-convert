@@ -2,7 +2,6 @@
 
 A small utility to convert .tmTheme files into .sublime-color-scheme files.
 
-
 # Usage
 
 Tested on Python 3.6.8

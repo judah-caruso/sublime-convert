@@ -51,16 +51,6 @@ def error(str):
     exit(1)
 
 
-def expect(tree, expected):
-    value = tree.findall(expected)
-
-    if value == None:
-        error(f"Expected {expected} but found nothing")
-
-    tree.remove(value)
-    return value
-
-
 def parse_theme_info(theme):
     theme_info = {}
 
@@ -110,13 +100,6 @@ def format_keys(keys):
         key.text      = formatted_key
 
     return keys
-
-
-def format_names(names):
-    for name in names:
-        print(name.tag, name.text)
-
-    return names
 
 
 def parse_global_values(theme, color_palette):
